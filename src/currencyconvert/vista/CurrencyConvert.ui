@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>324</width>
-    <height>165</height>
+    <height>204</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -76,7 +76,7 @@
      <x>10</x>
      <y>40</y>
      <width>71</width>
-     <height>111</height>
+     <height>141</height>
     </rect>
    </property>
    <property name="title">
@@ -124,6 +124,19 @@
      <string>AUS$</string>
     </property>
    </widget>
+   <widget class="QRadioButton" name="brFromSOL">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>120</y>
+      <width>82</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>s/.</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="gbTo">
    <property name="geometry">
@@ -131,7 +144,7 @@
      <x>100</x>
      <y>40</y>
      <width>71</width>
-     <height>111</height>
+     <height>141</height>
     </rect>
    </property>
    <property name="title">
@@ -177,6 +190,19 @@
     </property>
     <property name="text">
      <string>AUS$</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="brToSOL">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>120</y>
+      <width>82</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>s/.</string>
     </property>
    </widget>
   </widget>
