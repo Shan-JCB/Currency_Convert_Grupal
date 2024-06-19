@@ -1,48 +1,53 @@
 import sys
 import os
-
-from PyQt6.QtWidgets import QApplication,QDialog
+from PyQt6.QtWidgets import QApplication, QDialog, QMessageBox
 from PyQt6 import uic
-from tkinter import messagebox
 
 class Dialogo(QDialog):
-    #AusInUS = 2
-    #UKInUS = 0.5
     AusInUS = 3
     UKInUS = 1.5
+    SOLInUS = 0.27  # Añadir la tasa de conversión de SOL a USD (1 SOL ≈ 0.27 USD)
+
     def __init__(self):
-        ruta = os.path.dirname ( os.path.abspath ( __file__ ) ) + r"\..\vista\CurrencyConvert.ui"
+        ruta = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'vista', 'CurrencyConvert.ui')
         QDialog.__init__(self)
-        uic.loadUi(ruta,self)
+        uic.loadUi(ruta, self)
 
         self.pbConvert.clicked.connect(self.calculate_convert)
         self.pbExit.clicked.connect(self.exit_app)
 
-    def calculate_convert( self ):
-        converted = 0.0
-        initial = 0.0
+    def calculate_convert(self):
+        try:
+            initial = float(self.ltAmount.text())
+        except ValueError:
+            QMessageBox.warning(self, "Error", "Por favor, ingrese un número válido.")
+            return
 
-        initial = float(self.ltAmount.text())
-        converted=initial
+        converted = initial
         if self.brFromUK.isChecked():
-            converted = initial / self.UKInUS
+            converted = initial * self.UKInUS
         elif self.brFromAUS.isChecked():
-            converted = initial / self.AusInUS
+            converted = initial * self.AusInUS
+        elif self.brFromSOL.isChecked():
+            converted = initial * self.SOLInUS
 
         if self.brToUK.isChecked():
-            converted = converted * self.UKInUS
+            converted = converted / self.UKInUS
         elif self.brToAUS.isChecked():
-            converted = converted * self.AusInUS
-        self.lbResult.setText(converted.__str__())
+            converted = converted / self.AusInUS
+        elif self.brToSOL.isChecked():
+            converted = converted / self.SOLInUS
 
-    def exit_app( self ):
-        resultado = messagebox.askquestion("Salir","¿Está seguro que desea salir?")
-        if resultado == "yes":
-            #exit(0)
-            quit(0)
+        self.lbResult.setText(f"{converted:.2f}")
+
+    def exit_app(self):
+        resultado = QMessageBox.question(self, "Salir", "¿Está seguro que desea salir?",
+                                         QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        if resultado == QMessageBox.StandardButton.Yes:
+            sys.exit(0)
 
 if __name__ == '__main__':
-    app=QApplication(sys.argv)
-    dialogo=Dialogo()
+    app = QApplication(sys.argv)
+    dialogo = Dialogo()
     dialogo.show()
     app.exec()
